@@ -3,136 +3,167 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Schmup.XnaGame.Common
 {
+    /// <summary>
+    /// Store the previous and current Keyboard and GamePad states to provide more features
+    /// </summary>
     public class InputState
     {
-        public GamePadState CurrentGamePadState;
-        public KeyboardState CurrentKeyboardState;
+        private GamePadState currentGamePadState;
+        private KeyboardState currentKeyboardState;
 
-        public GamePadState LastGamePadState;
-        public KeyboardState LastKeyboardState;
+        private GamePadState lastGamePadState;
+        private KeyboardState lastKeyboardState;
 
+        /// <summary>
+        /// Should move selection up in menus
+        /// </summary>
         public bool MenuUp
         {
             get
             {
                 return IsNewKeyPress(Keys.Up)
-                    || (CurrentGamePadState.DPad.Up == ButtonState.Pressed
-                        && LastGamePadState.DPad.Up == ButtonState.Released)
-                    || (CurrentGamePadState.ThumbSticks.Left.Y > 0
-                        && LastGamePadState.ThumbSticks.Left.Y <= 0);
+                    || (currentGamePadState.DPad.Up == ButtonState.Pressed
+                        && lastGamePadState.DPad.Up == ButtonState.Released)
+                    || (currentGamePadState.ThumbSticks.Left.Y > 0
+                        && lastGamePadState.ThumbSticks.Left.Y <= 0);
             }
         }
 
+        /// <summary>
+        /// Should move selection down in menus
+        /// </summary>
         public bool MenuDown
         {
             get
             {
                 return IsNewKeyPress(Keys.Down)
-                    || (CurrentGamePadState.DPad.Down == ButtonState.Pressed
-                        && LastGamePadState.DPad.Down == ButtonState.Released)
-                    || (CurrentGamePadState.ThumbSticks.Left.Y < 0
-                        && LastGamePadState.ThumbSticks.Left.Y >= 0);
+                    || (currentGamePadState.DPad.Down == ButtonState.Pressed
+                        && lastGamePadState.DPad.Down == ButtonState.Released)
+                    || (currentGamePadState.ThumbSticks.Left.Y < 0
+                        && lastGamePadState.ThumbSticks.Left.Y >= 0);
             }
         }
 
+        /// <summary>
+        /// Should validate selection in menus
+        /// </summary>
         public bool MenuSelect
         {
             get
             {
                 return IsNewKeyPress(Keys.Space)
                     || IsNewKeyPress(Keys.Enter)
-                    || (CurrentGamePadState.Buttons.A == ButtonState.Pressed
-                        && LastGamePadState.Buttons.A == ButtonState.Released)
-                    || (CurrentGamePadState.Buttons.Start == ButtonState.Pressed
-                        && LastGamePadState.Buttons.Start == ButtonState.Released);
+                    || (currentGamePadState.Buttons.A == ButtonState.Pressed
+                        && lastGamePadState.Buttons.A == ButtonState.Released)
+                    || (currentGamePadState.Buttons.Start == ButtonState.Pressed
+                        && lastGamePadState.Buttons.Start == ButtonState.Released);
             }
         }
 
-        public bool MenuCancel
-        {
-            get
-            {
-                return IsNewKeyPress(Keys.Escape)
-                    || (CurrentGamePadState.Buttons.B == ButtonState.Pressed
-                        && LastGamePadState.Buttons.B == ButtonState.Released)
-                    || (CurrentGamePadState.Buttons.Back == ButtonState.Pressed
-                        && LastGamePadState.Buttons.Back == ButtonState.Released);
-            }
-        }
-
+        /// <summary>
+        /// Should pause / leave game and go back to the main menu
+        /// </summary>
         public bool PauseGame
         {
             get
             {
                 return IsNewKeyPress(Keys.Escape)
-                    || (CurrentGamePadState.Buttons.Back == ButtonState.Pressed
-                        && LastGamePadState.Buttons.Back == ButtonState.Released)
-                    || (CurrentGamePadState.Buttons.Start == ButtonState.Pressed
-                        && LastGamePadState.Buttons.Start == ButtonState.Released);
+                    || (currentGamePadState.Buttons.Back == ButtonState.Pressed
+                        && lastGamePadState.Buttons.Back == ButtonState.Released)
+                    || (currentGamePadState.Buttons.Start == ButtonState.Pressed
+                        && lastGamePadState.Buttons.Start == ButtonState.Released);
             }
         }
 
+        /// <summary>
+        /// Should move the ship left
+        /// </summary>
         public bool MoveLeft
         {
             get
             {
-                return CurrentKeyboardState.IsKeyDown(Keys.Left)
-                    || CurrentGamePadState.DPad.Left == ButtonState.Pressed;
+                return currentKeyboardState.IsKeyDown(Keys.Left)
+                    || currentGamePadState.DPad.Left == ButtonState.Pressed;
             }
         }
 
+        /// <summary>
+        /// Should move the ship right
+        /// </summary>
         public bool MoveRight
         {
             get
             {
-                return CurrentKeyboardState.IsKeyDown(Keys.Right)
-                    || CurrentGamePadState.DPad.Right == ButtonState.Pressed;
+                return currentKeyboardState.IsKeyDown(Keys.Right)
+                    || currentGamePadState.DPad.Right == ButtonState.Pressed;
             }
         }
 
+        /// <summary>
+        /// Should move the ship up
+        /// </summary>
         public bool MoveUp
         {
             get
             {
-                return CurrentKeyboardState.IsKeyDown(Keys.Up)
-                    || CurrentGamePadState.DPad.Up == ButtonState.Pressed;
+                return currentKeyboardState.IsKeyDown(Keys.Up)
+                    || currentGamePadState.DPad.Up == ButtonState.Pressed;
             }
         }
 
+        /// <summary>
+        /// Should move the ship down
+        /// </summary>
         public bool MoveDown
         {
             get
             {
-                return CurrentKeyboardState.IsKeyDown(Keys.Down)
-                    || CurrentGamePadState.DPad.Down == ButtonState.Pressed;
+                return currentKeyboardState.IsKeyDown(Keys.Down)
+                    || currentGamePadState.DPad.Down == ButtonState.Pressed;
             }
         }
 
+        /// <summary>
+        /// Should shoot a bullet
+        /// </summary>
         public bool ShootBullet
         {
             get
             {
                 return IsNewKeyPress(Keys.Space)
-                    || (CurrentGamePadState.Buttons.A == ButtonState.Pressed
-                        && LastGamePadState.Buttons.A == ButtonState.Released);
+                    || (currentGamePadState.Buttons.A == ButtonState.Pressed
+                        && lastGamePadState.Buttons.A == ButtonState.Released);
             }
         }
 
+        /// <summary>
+        /// Update the previous and current input states
+        /// </summary>
         public void Update()
         {
-            LastKeyboardState = CurrentKeyboardState;
-            LastGamePadState = CurrentGamePadState;
-            CurrentKeyboardState = Keyboard.GetState();
-            CurrentGamePadState = GamePad.GetState(PlayerIndex.One);
+            lastKeyboardState = currentKeyboardState;
+            lastGamePadState = currentGamePadState;
+            currentKeyboardState = Keyboard.GetState();
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
         }
 
-        public bool IsNewKeyPress(Keys key)
+        /// <summary>
+        /// Was the key down before and is up now ?
+        /// </summary>
+        /// <param name="key">Key to test</param>
+        /// <returns>The key has just been released</returns>
+        private bool IsNewKeyPress(Keys key)
         {
-            return CurrentKeyboardState.IsKeyDown(key)
-                && LastKeyboardState.IsKeyUp(key);
+            return currentKeyboardState.IsKeyDown(key)
+                && lastKeyboardState.IsKeyUp(key);
         }
 
-        public bool OneOfKeysPressed(params Keys[] keys)
+        /// <summary>
+        /// Was one of the keys down before and is up now ?
+        /// </summary>
+        /// <param name="keys">Keys to test</param>
+        /// <returns>At least one of the keys has just been released</returns>
+        private bool OneOfKeysPressed(params Keys[] keys)
         {
             foreach (Keys key in keys)
                 if (IsNewKeyPress(key))

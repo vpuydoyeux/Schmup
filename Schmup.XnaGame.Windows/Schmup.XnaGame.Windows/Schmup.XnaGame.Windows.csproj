@@ -112,7 +112,10 @@
     <Compile Include="DebugHelpers\ComponentsTracer.cs" />
     <Compile Include="DebugHelpers\FrameRateCounter.cs" />
     <Compile Include="DebugHelpers\LevelTracer.cs" />
+    <Compile Include="Levels\EnnemyWave.cs" />
+    <Compile Include="Levels\EnnemyWaveItem.cs" />
     <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Level1.cs" />
     <Compile Include="Levels\ScoreManager.cs" />
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\Menu.cs" />
@@ -122,6 +125,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="SchmupGame.cs" />
     <Compile Include="Sprites\Bullet.cs" />
+    <Compile Include="Sprites\Ennemies\Ennemy.cs" />
+    <Compile Include="Sprites\Ennemies\DarkDrone.cs" />
     <Compile Include="Sprites\Ship.cs" />
     <Compile Include="Sprites\Sprite.cs" />
   </ItemGroup>

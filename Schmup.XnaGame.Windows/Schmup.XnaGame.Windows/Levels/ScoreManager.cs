@@ -4,12 +4,30 @@ using Schmup.XnaGame.Common;
 
 namespace Schmup.XnaGame.Levels
 {
+    /// <summary>
+    /// Store and display player's informations
+    /// </summary>
     public class ScoreManager : SchmupDrawableGameComponent
     {
+        /// <summary>
+        /// Number of bombs left
+        /// </summary>
         public int Bombs { get; set; }
+        /// <summary>
+        /// Remaining energy of a boss
+        /// </summary>
         public int BossHealth { get; set; }
+        /// <summary>
+        /// Chains count
+        /// </summary>
         public int Chains { get; set; }
+        /// <summary>
+        /// Remaining ships
+        /// </summary>
         public int Lives { get; set; }
+        /// <summary>
+        /// Current score
+        /// </summary>
         public int Score { get; set; }
 
         private SpriteFont scoreManagerFont;
@@ -30,6 +48,10 @@ namespace Schmup.XnaGame.Levels
 
         private Viewport viewport;
 
+        /// <summary>
+        /// Initialize a new instance of ScoreManager
+        /// </summary>
+        /// <param name="game">The game</param>
         public ScoreManager(SchmupGame game)
             : base(game)
         {
@@ -51,12 +73,22 @@ namespace Schmup.XnaGame.Levels
 
         #region SchmupDrawableGameComponent Members
 
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
         public override void Initialize()
         {
             viewport = new Viewport(960, 0, 320, 720);
             base.Initialize();
         }
 
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -65,6 +97,10 @@ namespace Schmup.XnaGame.Levels
             lifeTexture = Game.Content.Load<Texture2D>("Textures/ScoreManager/Life");
         }
 
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
             Viewport oldViewport = GraphicsDevice.Viewport;
